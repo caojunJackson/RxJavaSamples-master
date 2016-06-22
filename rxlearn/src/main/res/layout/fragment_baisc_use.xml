@@ -26,4 +26,18 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/padding_comm"
         android:text="Single" />
+
+    <Button
+        android:id="@+id/btnSchedulerWorker"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_comm"
+        android:text="Scheduler.Worker" />
+
+    <Button
+        android:id="@+id/btnSchedulerDelay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_comm"
+        android:text="延迟和周期调度" />
 </LinearLayout>

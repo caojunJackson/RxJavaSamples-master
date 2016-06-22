@@ -2,12 +2,16 @@ package example.com.rxlearn.ui.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -18,25 +22,28 @@ import rx.Observer;
 import rx.Single;
 import rx.SingleSubscriber;
 import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action0;
-import rx.internal.operators.OnSubscribeSingle;
 import rx.schedulers.Schedulers;
-import rx.subjects.AsyncSubject;
-import rx.subjects.BehaviorSubject;
-import rx.subjects.Subject;
 
 /**
  * Created by Administrator on 2016/6/22.
  */
 public class BasicUseFrag extends BaseFragment {
 
-
+    private static final String TAG = "BasicUseFrag";
     @Bind(R.id.tvShowInfo)
     TextView mTvShowInfo;
     @Bind(R.id.btnSend)
     Button mBtnSend;
     @Bind(R.id.btnSingle)
     Button btnSingle;
+    @Bind(R.id.btnTips)
+    Button btnTips;
+    @Bind(R.id.btnSchedulerWorker)
+    Button btnSchedulerWorker;
+    @Bind(R.id.btnSchedulerDelay)
+    Button btnSchedulerDelay;
 
     @Nullable
     @Override
@@ -66,9 +73,7 @@ public class BasicUseFrag extends BaseFragment {
                     public void call(SingleSubscriber<? super String> singleSubscriber) {
                         singleSubscriber.onSuccess("hello RxJava Single!");
                     }
-                })
-                        .subscribeOn()
-                        .subscribe(new SingleSubscriber<String>() {
+                }).subscribe(new SingleSubscriber<String>() {
                     @Override
                     public void onSuccess(String value) {
                         Toast.makeText(App.getContext(), value, Toast.LENGTH_SHORT).show();
@@ -80,12 +85,30 @@ public class BasicUseFrag extends BaseFragment {
                 });
             }
         });
-        Schedulers.newThread().createWorker().schedule(new Action0() {
+        btnSchedulerWorker.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void call() {
-
+            public void onClick(View v) {
+                Schedulers.newThread().createWorker().schedule(new Action0() {
+                    @Override
+                    public void call() {
+                        Log.d(TAG, "call: btnSchedulerWorker");
+                    }
+                });
             }
         });
+        btnSchedulerDelay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AndroidSchedulers.mainThread().createWorker().schedulePeriodically(new Action0() {
+                    @Override
+                    public void call() {
+                        Toast.makeText(App.getContext(), "hello btnSchedulerDelay!", Toast.LENGTH_SHORT).show();
+                    }
+                }, 1000, 2000, TimeUnit.MILLISECONDS);
+            }
+        });
+
+
     }
 
 
