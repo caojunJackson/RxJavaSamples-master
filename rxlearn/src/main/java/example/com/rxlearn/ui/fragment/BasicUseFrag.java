@@ -15,7 +15,15 @@ import example.com.rxlearn.App;
 import example.com.rxlearn.R;
 import rx.Observable;
 import rx.Observer;
+import rx.Single;
+import rx.SingleSubscriber;
 import rx.Subscriber;
+import rx.functions.Action0;
+import rx.internal.operators.OnSubscribeSingle;
+import rx.schedulers.Schedulers;
+import rx.subjects.AsyncSubject;
+import rx.subjects.BehaviorSubject;
+import rx.subjects.Subject;
 
 /**
  * Created by Administrator on 2016/6/22.
@@ -23,12 +31,12 @@ import rx.Subscriber;
 public class BasicUseFrag extends BaseFragment {
 
 
-    @Bind(R.id.btnTips)
-    Button mBtnTips;
     @Bind(R.id.tvShowInfo)
     TextView mTvShowInfo;
     @Bind(R.id.btnSend)
     Button mBtnSend;
+    @Bind(R.id.btnSingle)
+    Button btnSingle;
 
     @Nullable
     @Override
@@ -40,6 +48,7 @@ public class BasicUseFrag extends BaseFragment {
     }
 
     private void testRx() {
+
         final Observable observable = Observable.create(mStringOnSubscribe);
         mBtnSend.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,12 +57,44 @@ public class BasicUseFrag extends BaseFragment {
                 observable.subscribe(mTextShowObserver);
             }
         });
+
+        btnSingle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Single.create(new Single.OnSubscribe<String>() {
+                    @Override
+                    public void call(SingleSubscriber<? super String> singleSubscriber) {
+                        singleSubscriber.onSuccess("hello RxJava Single!");
+                    }
+                })
+                        .subscribeOn()
+                        .subscribe(new SingleSubscriber<String>() {
+                    @Override
+                    public void onSuccess(String value) {
+                        Toast.makeText(App.getContext(), value, Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onError(Throwable error) {
+                    }
+                });
+            }
+        });
+        Schedulers.newThread().createWorker().schedule(new Action0() {
+            @Override
+            public void call() {
+
+            }
+        });
     }
+
 
     Observable.OnSubscribe<String> mStringOnSubscribe = new Observable.OnSubscribe<String>() {
         @Override
         public void call(Subscriber<? super String> subscriber) {
             subscriber.onNext(helloRxJava());
+            subscriber.onNext("2");
+            subscriber.onNext("3");
             subscriber.onCompleted();
         }
     };

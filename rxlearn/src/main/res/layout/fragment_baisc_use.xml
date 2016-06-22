@@ -17,8 +17,13 @@
         android:id="@+id/btnSend"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Send"
-        android:layout_marginTop="@dimen/padding_comm" />
+        android:layout_marginTop="@dimen/padding_comm"
+        android:text="Send" />
 
-
+    <Button
+        android:id="@+id/btnSingle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_comm"
+        android:text="Single" />
 </LinearLayout>
