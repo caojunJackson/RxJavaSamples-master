@@ -5,14 +5,14 @@ import android.app.Fragment;
 
 import butterknife.OnClick;
 import example.com.rxlearn.R;
-import rx.Subscription;
+import okhttp3.Call;
 
 /**
  * Created by Administrator on 2016/6/22.
  */
 public abstract class BaseFragment extends Fragment {
-    protected Subscription subscription;
 
+    protected Call call;
     @OnClick(R.id.btnTips)
     void tips() {
         new AlertDialog.Builder(getActivity())
@@ -25,8 +25,8 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (subscription != null && !subscription.isUnsubscribed()) {
-            subscription.unsubscribe();
+        if (call != null && !call.isCanceled()) {
+            call.cancel();
         }
     }
 

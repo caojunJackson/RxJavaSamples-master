@@ -145,7 +145,11 @@ public class BasicUseFrag extends BaseFragment {
     };
 
     private void searchImage(String title) {
-        NetWork.getSearchApi().search(title).subscribe(mObserver);
+        NetWork.getSearchApi()
+                .search(title)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(mObserver);
     }
 
     Observable.OnSubscribe<String> mStringOnSubscribe = new Observable.OnSubscribe<String>() {

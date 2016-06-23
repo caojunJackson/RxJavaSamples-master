@@ -1,1 +1,1 @@
-include ':app', ':rxlearn'
+include ':app', ':rxlearn', ':oldjava'
