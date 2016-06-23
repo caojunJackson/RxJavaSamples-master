@@ -2,6 +2,8 @@
 
 package com.rengwuxian.rxjavasamples.network;
 
+import android.util.Log;
+
 import com.rengwuxian.rxjavasamples.network.api.FakeApi;
 import com.rengwuxian.rxjavasamples.network.api.GankApi;
 import com.rengwuxian.rxjavasamples.network.api.ZhuangbiApi;

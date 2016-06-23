@@ -10,13 +10,17 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.concurrent.Executors;
+import com.jakewharton.rxbinding.view.RxView;
+
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import example.com.rxlearn.App;
 import example.com.rxlearn.R;
+import example.com.rxlearn.model.SearchImage;
+import example.com.rxlearn.network.NetWork;
 import rx.Observable;
 import rx.Observer;
 import rx.Single;
@@ -24,6 +28,7 @@ import rx.SingleSubscriber;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action0;
+import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -44,6 +49,8 @@ public class BasicUseFrag extends BaseFragment {
     Button btnSchedulerWorker;
     @Bind(R.id.btnSchedulerDelay)
     Button btnSchedulerDelay;
+    @Bind(R.id.btnSearch)
+    Button mBtnSearch;
 
     @Nullable
     @Override
@@ -108,9 +115,38 @@ public class BasicUseFrag extends BaseFragment {
             }
         });
 
+        RxView.clicks(mBtnSearch).subscribe(new Action1<Void>() {
+            @Override
+            public void call(Void aVoid) {
+                searchImage("警察");
+            }
 
+
+        });
     }
 
+    Observer<List<SearchImage>> mObserver = new Observer<List<SearchImage>>() {
+        @Override
+        public void onCompleted() {
+
+        }
+
+        @Override
+        public void onError(Throwable e) {
+
+        }
+
+        @Override
+        public void onNext(List<SearchImage> searchImageList) {
+            for (int i = 0; i < searchImageList.size(); i++) {
+                Log.d(TAG, "onNext: " + searchImageList.get(i).toString());
+            }
+        }
+    };
+
+    private void searchImage(String title) {
+        NetWork.getSearchApi().search(title).subscribe(mObserver);
+    }
 
     Observable.OnSubscribe<String> mStringOnSubscribe = new Observable.OnSubscribe<String>() {
         @Override
