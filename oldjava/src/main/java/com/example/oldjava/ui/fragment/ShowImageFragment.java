@@ -1,8 +1,12 @@
 package com.example.oldjava.ui.fragment;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.SystemClock;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +17,7 @@ import android.widget.Toast;
 
 import com.example.oldjava.App;
 import com.example.oldjava.R;
+import com.example.oldjava.SearchImageAdapter;
 import com.example.oldjava.model.SearchImage;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -44,13 +49,18 @@ public class ShowImageFragment extends BaseFragment {
 
     private OkHttpClient mOkHttpClient = new OkHttpClient();
     private List<SearchImage> mDatas = new ArrayList<>();
-
+    private SearchImageAdapter mAdapter = new SearchImageAdapter();
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_show_image, null);
         ButterKnife.bind(this, view);
+        mRecycleView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        mRecycleView.setAdapter(mAdapter);
+        mSwipeRefreshLayout.setColorSchemeColors(Color.BLUE, Color.GREEN, Color.RED, Color.YELLOW);
+        mSwipeRefreshLayout.setEnabled(false);
+
         initViewEvent();
         return view;
     }
@@ -61,6 +71,7 @@ public class ShowImageFragment extends BaseFragment {
         mBtnLoading.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mSwipeRefreshLayout.setRefreshing(true);
                 Request request = new Request.Builder()
                         .url("http://zhuangbi.info/search?q=" + getString(R.string.niubility))
                         .build();
@@ -70,6 +81,7 @@ public class ShowImageFragment extends BaseFragment {
                     @Override
                     public void onFailure(Call call, IOException e) {
                         Toast.makeText(App.getContext(), "", Toast.LENGTH_SHORT).show();
+                        mSwipeRefreshLayout.setRefreshing(false);
                     }
 
                     @Override
@@ -78,11 +90,20 @@ public class ShowImageFragment extends BaseFragment {
                         Gson gson = new Gson();
                         mDatas = gson.fromJson(resStr, new TypeToken<List<SearchImage>>() {
                         }.getType());
-                        Log.d(TAG, "onResponse: mDatas.size:" + mDatas.size());
+//                        Log.d(TAG, "onResponse: mDatas.size:" + mDatas.size());
                         for (int i = 0; i < mDatas.size(); i++) {
-                            Log.d(TAG, "onResponse: " + mDatas.get(i).toString());
+//                            Log.d(TAG, "onResponse: " + mDatas.get(i).toString());
                         }
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                mSwipeRefreshLayout.setRefreshing(false);
+                                mAdapter.setDatas(mDatas);
+                            }
+                        });
+
                     }
+
                 });
             }
         });
