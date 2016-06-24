@@ -14,6 +14,7 @@ import com.jakewharton.rxbinding.view.RxView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import example.com.rxlearn.ui.fragment.BasicUseFrag;
+import example.com.rxlearn.ui.fragment.ShowImageFragment;
 import rx.Observable;
 import rx.Observer;
 import rx.Subscriber;
@@ -40,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(new FragmentPagerAdapter(getFragmentManager()) {
             @Override
             public int getCount() {
-                return 1;
+                return 2;
             }
 
             @Override
@@ -48,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
                 switch (position) {
                     case 0:
                         return new BasicUseFrag();
+                    case 1:
+                        return new ShowImageFragment();
                     default:
                         return new BasicUseFrag();
                 }
@@ -58,6 +61,8 @@ public class MainActivity extends AppCompatActivity {
                 switch (position) {
                     case 0:
                         return getString(R.string.title_basic_use);
+                    case 1:
+                        return getString(R.string.niubility);
                     default:
                         return getString(R.string.title_basic_use);
                 }

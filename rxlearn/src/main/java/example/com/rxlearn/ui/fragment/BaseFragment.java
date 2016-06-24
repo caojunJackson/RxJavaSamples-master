@@ -6,27 +6,33 @@ import android.app.Fragment;
 import butterknife.OnClick;
 import example.com.rxlearn.R;
 import okhttp3.Call;
+import rx.Subscription;
 
 /**
  * Created by Administrator on 2016/6/22.
  */
 public abstract class BaseFragment extends Fragment {
+    protected Subscription mSubscription;
 
-    protected Call call;
-    @OnClick(R.id.btnTips)
-    void tips() {
-        new AlertDialog.Builder(getActivity())
-                .setTitle(getTitleRes())
-                .setView(getActivity().getLayoutInflater().inflate(getDialogRes(), null))
-                .show();
-    }
+//    @OnClick(R.id.btnTips)
+//    void tips() {
+//        new AlertDialog.Builder(getActivity())
+//                .setTitle(getTitleRes())
+//                .setView(getActivity().getLayoutInflater().inflate(getDialogRes(), null))
+//                .show();
+//    }
 
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (call != null && !call.isCanceled()) {
-            call.cancel();
+        unSubscribe();
+
+    }
+
+    protected void unSubscribe() {
+        if (mSubscription != null && !mSubscription.isUnsubscribed()) {
+            mSubscription.unsubscribe();
         }
     }
 

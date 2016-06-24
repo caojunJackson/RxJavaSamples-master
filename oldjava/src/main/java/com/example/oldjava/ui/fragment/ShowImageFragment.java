@@ -71,41 +71,45 @@ public class ShowImageFragment extends BaseFragment {
         mBtnLoading.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mSwipeRefreshLayout.setRefreshing(true);
-                Request request = new Request.Builder()
-                        .url("http://zhuangbi.info/search?q=" + getString(R.string.niubility))
-                        .build();
 
-                call = mOkHttpClient.newCall(request);
-                call.enqueue(new Callback() {
-                    @Override
-                    public void onFailure(Call call, IOException e) {
-                        Toast.makeText(App.getContext(), "", Toast.LENGTH_SHORT).show();
-                        mSwipeRefreshLayout.setRefreshing(false);
-                    }
-
-                    @Override
-                    public void onResponse(Call call, Response response) throws IOException {
-                        String resStr = response.body().string();
-                        Gson gson = new Gson();
-                        mDatas = gson.fromJson(resStr, new TypeToken<List<SearchImage>>() {
-                        }.getType());
-//                        Log.d(TAG, "onResponse: mDatas.size:" + mDatas.size());
-                        for (int i = 0; i < mDatas.size(); i++) {
-//                            Log.d(TAG, "onResponse: " + mDatas.get(i).toString());
-                        }
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                mSwipeRefreshLayout.setRefreshing(false);
-                                mAdapter.setDatas(mDatas);
-                            }
-                        });
-
-                    }
-
-                });
+                search();
             }
+        });
+    }
+
+    private void search() {
+        mSwipeRefreshLayout.setRefreshing(true);
+        Request request = new Request.Builder()
+                .url("http://zhuangbi.info/search?q=" + getString(R.string.niubility))
+                .build();
+
+        call = mOkHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Toast.makeText(App.getContext(), "", Toast.LENGTH_SHORT).show();
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String resStr = response.body().string();
+                Gson gson = new Gson();
+                mDatas = gson.fromJson(resStr, new TypeToken<List<SearchImage>>() {
+                }.getType());
+                for (int i = 0; i < mDatas.size(); i++) {
+                    Log.d(TAG, "onResponse: " + mDatas.get(i).toString());
+                }
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mSwipeRefreshLayout.setRefreshing(false);
+                        mAdapter.setDatas(mDatas);
+                    }
+                });
+
+            }
+
         });
     }
 
