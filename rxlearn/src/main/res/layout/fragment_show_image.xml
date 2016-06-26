@@ -6,11 +6,10 @@
 
     <Button
         android:id="@+id/btnLoading"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/padding_comm"
-        android:layout_marginTop="@dimen/padding_comm"
-        android:text="加载数据" />
+        android:text="获取信息" />
+
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshLayout"

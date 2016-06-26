@@ -6,5 +6,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="attr_btn_tips">tips</string>
     <string name="title_basic_use">基本用法</string>
-    <string name="niubility">牛逼</string>
+    <string name="title_niubility">牛逼</string>
+    <string name="title_get">Get用法</string>
 </resources>

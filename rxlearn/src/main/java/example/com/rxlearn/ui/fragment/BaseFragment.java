@@ -14,14 +14,6 @@ import rx.Subscription;
 public abstract class BaseFragment extends Fragment {
     protected Subscription mSubscription;
 
-//    @OnClick(R.id.btnTips)
-//    void tips() {
-//        new AlertDialog.Builder(getActivity())
-//                .setTitle(getTitleRes())
-//                .setView(getActivity().getLayoutInflater().inflate(getDialogRes(), null))
-//                .show();
-//    }
-
 
     @Override
     public void onDestroyView() {
@@ -36,7 +28,4 @@ public abstract class BaseFragment extends Fragment {
         }
     }
 
-    protected abstract int getDialogRes();
-
-    protected abstract int getTitleRes();
 }

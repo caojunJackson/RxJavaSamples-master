@@ -7,19 +7,13 @@ import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.widget.Toast;
-
-import com.jakewharton.rxbinding.view.RxView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import example.com.rxlearn.ui.fragment.BasicUseFrag;
+import example.com.rxlearn.ui.fragment.GetFragment;
+import example.com.rxlearn.ui.fragment.PostFragment;
 import example.com.rxlearn.ui.fragment.ShowImageFragment;
-import rx.Observable;
-import rx.Observer;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 
 public class MainActivity extends AppCompatActivity {
     public final static String TAG = "MainActivity";
@@ -41,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(new FragmentPagerAdapter(getFragmentManager()) {
             @Override
             public int getCount() {
-                return 2;
+                return 4;
             }
 
             @Override
@@ -51,6 +45,10 @@ public class MainActivity extends AppCompatActivity {
                         return new BasicUseFrag();
                     case 1:
                         return new ShowImageFragment();
+                    case 2:
+                        return new GetFragment();
+                    case 3:
+                        return new PostFragment();
                     default:
                         return new BasicUseFrag();
                 }
@@ -62,7 +60,11 @@ public class MainActivity extends AppCompatActivity {
                     case 0:
                         return getString(R.string.title_basic_use);
                     case 1:
-                        return getString(R.string.niubility);
+                        return getString(R.string.title_niubility);
+                    case 2:
+                        return "Get用法";
+                    case 3:
+                        return "Post用法";
                     default:
                         return getString(R.string.title_basic_use);
                 }
@@ -71,22 +73,6 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
     }
 
-    Observer<String> mToastObserver = new Observer<String>() {
-        @Override
-        public void onCompleted() {
-
-        }
-
-        @Override
-        public void onError(Throwable e) {
-
-        }
-
-        @Override
-        public void onNext(String s) {
-            Toast.makeText(App.getContext(), s, Toast.LENGTH_SHORT).show();
-        }
-    };
 
 }
 

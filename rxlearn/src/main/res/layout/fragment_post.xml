@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/llHelper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/padding_comm"
+        android:layout_marginTop="@dimen/padding_comm"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/etNum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="查询个数:默认10个,最多100个" />
+
+        <EditText
+            android:id="@+id/etText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="需要分词的文本" />
+
+        <Button
+            android:id="@+id/btnLoading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="post请求" />
+    </LinearLayout>
+
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/tvShowInfo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+</LinearLayout>

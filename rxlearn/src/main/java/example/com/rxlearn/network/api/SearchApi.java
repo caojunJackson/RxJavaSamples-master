@@ -12,5 +12,5 @@ import rx.Observable;
  */
 public interface SearchApi {
     @GET("search")
-    Observable<List<SearchImage>> search(@Query("q") String qTitle);
+    Observable<List<SearchImage>>  search(@Query("q") String qTitle);
 }

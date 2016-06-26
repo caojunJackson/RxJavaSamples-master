@@ -43,8 +43,6 @@ public class BasicUseFrag extends BaseFragment {
     Button mBtnSend;
     @Bind(R.id.btnSingle)
     Button btnSingle;
-    @Bind(R.id.btnTips)
-    Button btnTips;
     @Bind(R.id.btnSchedulerWorker)
     Button btnSchedulerWorker;
     @Bind(R.id.btnSchedulerDelay)
@@ -196,15 +194,6 @@ public class BasicUseFrag extends BaseFragment {
         return "Hello RxJava!";
     }
 
-    @Override
-    protected int getDialogRes() {
-        return R.layout.dialog_basic_use;
-    }
-
-    @Override
-    protected int getTitleRes() {
-        return R.string.title_basic_use;
-    }
 
     @Override
     public void onDestroyView() {

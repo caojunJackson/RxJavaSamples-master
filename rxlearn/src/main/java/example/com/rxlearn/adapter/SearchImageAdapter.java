@@ -38,6 +38,7 @@ public class SearchImageAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         SearchImageViewHolder viewHolder = (SearchImageViewHolder) holder;
         SearchImage searchImage = mDatas.get(position);
+        Glide.clear(viewHolder.mIvShow);
         Glide.with(holder.itemView.getContext())
                 .load(searchImage.image_url)
                 .into(viewHolder.mIvShow);

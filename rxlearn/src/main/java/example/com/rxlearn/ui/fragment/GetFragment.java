@@ -6,11 +6,14 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import com.jakewharton.rxbinding.view.RxView;
 
@@ -19,10 +22,10 @@ import java.util.concurrent.TimeUnit;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import example.com.rxlearn.App;
 import example.com.rxlearn.R;
-import example.com.rxlearn.adapter.SearchImageAdapter;
-import example.com.rxlearn.model.SearchImage;
+import example.com.rxlearn.adapter.WxHotImageAdapter;
+import example.com.rxlearn.model.HttpWxHotResult;
+import example.com.rxlearn.model.WxNews;
 import example.com.rxlearn.network.NetWork;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -32,7 +35,7 @@ import rx.schedulers.Schedulers;
 /**
  * Created by Nevermore on 16/6/24.
  */
-public class ShowImageFragment extends BaseFragment {
+public class GetFragment extends BaseFragment {
     private static final String TAG = "ShowImageFragment";
     @Bind(R.id.btnLoading)
     Button mBtnLoading;
@@ -40,26 +43,34 @@ public class ShowImageFragment extends BaseFragment {
     RecyclerView mRecycleView;
     @Bind(R.id.swipeRefreshLayout)
     SwipeRefreshLayout mSwipeRefreshLayout;
+    @Bind(R.id.etNum)
+    EditText mEtNum;
+    @Bind(R.id.etTitle)
+    EditText mEtTitle;
+    @Bind(R.id.llHelper)
+    LinearLayout mLlHelper;
 
 
-    private SearchImageAdapter mAdapter = new SearchImageAdapter();
+    private WxHotImageAdapter mAdapter = new WxHotImageAdapter();
 
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_show_image, null);
+        View view = inflater.inflate(R.layout.fragment_get, null);
         ButterKnife.bind(this, view);
 
-        mRecycleView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-        mRecycleView.setAdapter(mAdapter);
-        mSwipeRefreshLayout.setColorSchemeColors(Color.BLUE, Color.GREEN, Color.RED, Color.YELLOW);
-        mSwipeRefreshLayout.setEnabled(false);
+
         initViewEvent();
         return view;
     }
 
     private void initViewEvent() {
+        mRecycleView.setLayoutManager(new GridLayoutManager(getActivity(), 1));
+        mRecycleView.setAdapter(mAdapter);
+        mSwipeRefreshLayout.setColorSchemeColors(Color.BLUE, Color.GREEN, Color.RED, Color.YELLOW);
+        mSwipeRefreshLayout.setEnabled(false);
+
         RxView.clicks(mBtnLoading)  //给mBtnLoading添加点击事件
                 .debounce(400, TimeUnit.MILLISECONDS) //400ms防止重复点击
                 .observeOn(AndroidSchedulers.mainThread()) //默认在非UI线程，切换到主线程执行Action1的Call方法内容
@@ -69,37 +80,45 @@ public class ShowImageFragment extends BaseFragment {
                         unSubscribe();
                         mAdapter.setDatas(null);
                         mSwipeRefreshLayout.setRefreshing(true);
-                        search(getString(R.string.title_niubility));
+                        getWxHot();
+                        mLlHelper.setVisibility(View.GONE);
                     }
                 });
     }
 
-
-    private void search(String title) {
-
-        Subscriber<List<SearchImage>> subscriber = new Subscriber<List<SearchImage>>() {
+    private void getWxHot() {
+        Subscriber<HttpWxHotResult<List<WxNews>>> httpResultSubscriber = new Subscriber<HttpWxHotResult<List<WxNews>>>() {
             @Override
             public void onCompleted() {
+                Log.d(TAG, "onCompleted: ");
             }
 
             @Override
             public void onError(Throwable e) {
+                Log.d(TAG, "onError: " + e.getMessage());
                 mSwipeRefreshLayout.setRefreshing(false);
-                Toast.makeText(App.getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
             }
 
             @Override
-            public void onNext(List<SearchImage> searchImages) {
+            public void onNext(HttpWxHotResult<List<WxNews>> httpResult) {
                 mSwipeRefreshLayout.setRefreshing(false);
-                //显示数据
-                mAdapter.setDatas(searchImages);
+                List<WxNews> datas = httpResult.getNewslist();
+                for (int i = 0; i < datas.size(); i++) {
+                    Log.d(TAG, "onNext: " + datas.get(i).toString());
+                }
+                mAdapter.setDatas(datas);
             }
+
+
         };
-        mSubscription = NetWork.getSearchApi() //获取SearchApi 具备网络通信能力
-                .search(title) //访问特定Api接口
-                .subscribeOn(Schedulers.io())//指定在非UI线程访问,执行(被观察）事件
-                .observeOn(AndroidSchedulers.mainThread())//指定在UI线程执行观察者(回调)结果
-                .subscribe(subscriber);//观察者(回调)执行
+
+        int num = TextUtils.isEmpty(mEtNum.getText()) ? 10 : Integer.valueOf(mEtNum.getText().toString());
+        String title = TextUtils.isEmpty(mEtTitle.getText()) ? "欧洲杯" : mEtTitle.getText().toString();
+        mSubscription = NetWork.getStoreWxHotApi()
+                .searchTitle("wxhot", num, title)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(httpResultSubscriber);
     }
 
     @Override
