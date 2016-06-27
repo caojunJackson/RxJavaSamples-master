@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
 
 import com.example.oldjava.ui.fragment.ShowImageFragment;
+import com.example.oldjava.ui.fragment.UploadFragment;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -35,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         mViewPager.setAdapter(new FragmentPagerAdapter(getFragmentManager()) {
             @Override
             public int getCount() {
-                return 1;
+                return 2;
             }
 
             @Override
@@ -43,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
                 switch (position) {
                     case 0:
                         return new ShowImageFragment();
+                    case 1:
+                        return new UploadFragment();
                     default:
                         return new ShowImageFragment();
                 }
@@ -53,6 +56,8 @@ public class MainActivity extends AppCompatActivity {
                 switch (position) {
                     case 0:
                         return getString(R.string.niubility);
+                    case 1:
+                        return "上传";
                     default:
                         return getString(R.string.niubility);
                 }

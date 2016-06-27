@@ -10,13 +10,6 @@ import okhttp3.Call;
 public abstract class BaseFragment extends Fragment {
 
     protected Call call;
-//    @OnClick(R.id.btnTips)
-//    void tips() {
-//        new AlertDialog.Builder(getActivity())
-//                .setTitle(getTitleRes())
-//                .setView(getActivity().getLayoutInflater().inflate(getDialogRes(), null))
-//                .show();
-//    }
 
 
     @Override
@@ -27,7 +20,4 @@ public abstract class BaseFragment extends Fragment {
         }
     }
 
-    protected abstract int getDialogRes();
-
-    protected abstract int getTitleRes();
 }

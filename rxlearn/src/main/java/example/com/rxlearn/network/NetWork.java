@@ -3,6 +3,7 @@ package example.com.rxlearn.network;
 import example.com.rxlearn.network.api.SearchApi;
 import example.com.rxlearn.network.api.StoreKeyExApi;
 import example.com.rxlearn.network.api.StoreWxHotApi;
+import example.com.rxlearn.network.api.UploadApi;
 import okhttp3.OkHttpClient;
 import retrofit2.CallAdapter;
 import retrofit2.Retrofit;
@@ -16,6 +17,7 @@ public class NetWork {
     private static SearchApi sSearchApi;
     private static StoreWxHotApi sStoreWxHotApi;
     private static StoreKeyExApi sStoreKeyExApi;
+    private static UploadApi sUploadApi;
     private static OkHttpClient sOkHttpClient = new OkHttpClient();
 
 
@@ -61,5 +63,18 @@ public class NetWork {
                     .create(StoreKeyExApi.class);
         }
         return sStoreKeyExApi;
+    }
+
+    public static UploadApi getUploadApi() {
+        if (sUploadApi == null) {
+            sUploadApi = new Retrofit.Builder()
+                    .client(sOkHttpClient)
+                    .baseUrl("http://testfileservice.4sonline.net:88/")
+                    .addConverterFactory(sGsonConverterFactory)
+                    .addCallAdapterFactory(sRxJavaCallAdapterFactory)
+                    .build()
+                    .create(UploadApi.class);
+        }
+        return sUploadApi;
     }
 }

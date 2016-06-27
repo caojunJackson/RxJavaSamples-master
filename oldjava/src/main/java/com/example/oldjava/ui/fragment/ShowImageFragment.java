@@ -114,16 +114,6 @@ public class ShowImageFragment extends BaseFragment {
     }
 
     @Override
-    protected int getDialogRes() {
-        return 0;
-    }
-
-    @Override
-    protected int getTitleRes() {
-        return R.string.niubility;
-    }
-
-    @Override
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);

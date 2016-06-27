@@ -14,6 +14,7 @@ import example.com.rxlearn.ui.fragment.BasicUseFrag;
 import example.com.rxlearn.ui.fragment.GetFragment;
 import example.com.rxlearn.ui.fragment.PostFragment;
 import example.com.rxlearn.ui.fragment.ShowImageFragment;
+import example.com.rxlearn.ui.fragment.UploadFragment;
 
 public class MainActivity extends AppCompatActivity {
     public final static String TAG = "MainActivity";
@@ -35,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(new FragmentPagerAdapter(getFragmentManager()) {
             @Override
             public int getCount() {
-                return 4;
+                return 6;
             }
 
             @Override
@@ -49,6 +50,10 @@ public class MainActivity extends AppCompatActivity {
                         return new GetFragment();
                     case 3:
                         return new PostFragment();
+                    case 4:
+                        return new UploadFragment();
+                    case 5:
+                        return new UploadFragment();
                     default:
                         return new BasicUseFrag();
                 }
@@ -65,6 +70,10 @@ public class MainActivity extends AppCompatActivity {
                         return "Get用法";
                     case 3:
                         return "Post用法";
+                    case 4:
+                        return "上传文件";
+                    case 6:
+                        return "下载文件";
                     default:
                         return getString(R.string.title_basic_use);
                 }
