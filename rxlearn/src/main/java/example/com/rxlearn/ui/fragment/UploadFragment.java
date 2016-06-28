@@ -85,6 +85,7 @@ public class UploadFragment extends BaseFragment {
                 .subscribe(new Action1<Void>() {
                     @Override
                     public void call(Void aVoid) {
+                        OkHttpClient httpClient = new OkHttpClient();
                         if (mFile == null || !mFile.isFile()) {
                             Log.d(TAG, "call: return");
                             Toast.makeText(App.getContext(), "请先选择要上传的文件", Toast.LENGTH_SHORT).show();

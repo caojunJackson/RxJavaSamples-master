@@ -23,6 +23,7 @@ import butterknife.ButterKnife;
 import example.com.rxlearn.R;
 import example.com.rxlearn.model.SearchImage;
 import example.com.rxlearn.network.api.SearchApi;
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -67,6 +68,16 @@ public class BuildRetrofitFrag extends BaseFragment {
         initTrans();
         initAdapt();
         initLog();
+        initProcess();
+    }
+
+    private void initProcess() {
+//        OkHttpClient httpClient = new OkHttpClient.Builder().addInterceptor(new Interceptor() {
+//            @Override
+//            public okhttp3.Response intercept(Chain chain) throws IOException {
+//                okhttp3.Response response = chain.proceed(chain.request());
+//            }
+//        }).build();
     }
 
     private void initLog() {

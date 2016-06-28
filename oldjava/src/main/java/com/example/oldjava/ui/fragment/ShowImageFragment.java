@@ -85,6 +85,7 @@ public class ShowImageFragment extends BaseFragment {
 
         call = mOkHttpClient.newCall(request);
         call.enqueue(new Callback() {
+
             @Override
             public void onFailure(Call call, IOException e) {
                 Toast.makeText(App.getContext(), "", Toast.LENGTH_SHORT).show();
