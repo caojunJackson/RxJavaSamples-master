@@ -69,7 +69,7 @@ public class ShowImageFragment extends BaseFragment {
                         unSubscribe();
                         mAdapter.setDatas(null);
                         mSwipeRefreshLayout.setRefreshing(true);
-                        search(getString(R.string.title_niubility));
+                        search(getString(R.string.title_example));
                     }
                 });
     }

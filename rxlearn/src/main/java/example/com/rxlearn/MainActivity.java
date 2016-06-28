@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import example.com.rxlearn.ui.fragment.BasicUseFrag;
+import example.com.rxlearn.ui.fragment.BuildRetrofitFrag;
 import example.com.rxlearn.ui.fragment.GetFragment;
 import example.com.rxlearn.ui.fragment.PostFragment;
 import example.com.rxlearn.ui.fragment.ShowImageFragment;
@@ -43,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
             public Fragment getItem(int position) {
                 switch (position) {
                     case 0:
-                        return new BasicUseFrag();
+                        return new BuildRetrofitFrag();
                     case 1:
                         return new ShowImageFragment();
                     case 2:
@@ -65,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
                     case 0:
                         return getString(R.string.title_basic_use);
                     case 1:
-                        return getString(R.string.title_niubility);
+                        return getString(R.string.title_example);
                     case 2:
                         return "Get用法";
                     case 3:

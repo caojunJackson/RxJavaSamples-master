@@ -40,9 +40,9 @@ public class SearchImageAdapter extends RecyclerView.Adapter {
         SearchImage searchImage = mDatas.get(position);
         Glide.clear(viewHolder.mIvShow);
         Glide.with(holder.itemView.getContext())
-                .load(searchImage.image_url)
+                .load(searchImage.getImage_url())
                 .into(viewHolder.mIvShow);
-        viewHolder.mTvDes.setText(searchImage.description);
+        viewHolder.mTvDes.setText(searchImage.getDescription());
     }
 
     @Override
