@@ -11,4 +11,13 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="ButtonCommon">
+        <item name="android:background">#55ffffff</item>
+        <item name="android:gravity">left|center_vertical</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/padding_comm</item>
+        <item name="android:paddingRight">@dimen/padding_big</item>
+    </style>
+
 </resources>

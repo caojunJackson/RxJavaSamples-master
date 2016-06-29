@@ -93,10 +93,7 @@ public class UploadFragment extends BaseFragment {
                         }
                         String sign = Encode.getMD5Str("4003abcdefg", 0, 32);
                         MultipartBody multipartBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
-                                .addFormDataPart("sign", sign)
-                                .addFormDataPart("sessionToken", "")
-                                .addFormDataPart("fid", "t_pic")
-                                .addFormDataPart("uid", "4003")
+                                // TODO: 2016/6/29   删除一些参数  这个服务器不能乱传数据  等我找个可以玩的服务器再回归
                                 .addFormDataPart("f", "1.jpg", RequestBody.create(UploadApi.MEDIA_TYPE_JPG, mFile))
                                 .build();
 

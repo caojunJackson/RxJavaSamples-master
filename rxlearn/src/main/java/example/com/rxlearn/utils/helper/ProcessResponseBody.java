@@ -19,7 +19,7 @@ public class ProcessResponseBody extends ResponseBody {
     private ResponseBody mResponseBody;
     private BufferedSource mBufferedSource;
 
-    public ProcessResponseBody(ProcessListener processListener, ResponseBody responseBody) {
+    public ProcessResponseBody(ResponseBody responseBody, ProcessListener processListener) {
         mProcessListener = processListener;
         mResponseBody = responseBody;
     }
@@ -36,7 +36,10 @@ public class ProcessResponseBody extends ResponseBody {
 
     @Override
     public BufferedSource source() {
-        return Okio.buffer(source(mResponseBody.source()));
+        if (mBufferedSource == null) {
+            mBufferedSource = Okio.buffer(source(mResponseBody.source()));
+        }
+        return mBufferedSource;
     }
 
     private Source source(Source source) {

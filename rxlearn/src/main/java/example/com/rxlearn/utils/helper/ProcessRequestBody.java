@@ -20,7 +20,7 @@ public class ProcessRequestBody extends RequestBody {
 
     private BufferedSink mBufferedSink;
 
-    public ProcessRequestBody(ProcessListener processListener, RequestBody requestBody) {
+    public ProcessRequestBody(RequestBody requestBody, ProcessListener processListener) {
         mProcessListener = processListener;
         mRequestBody = requestBody;
     }
@@ -52,6 +52,7 @@ public class ProcessRequestBody extends RequestBody {
             public void write(Buffer source, long byteCount) throws IOException {
                 super.write(source, byteCount);
                 writenBytes += byteCount;
+                //给请求数据添加一个监听器
                 mProcessListener.onProcess(writenBytes, mRequestBody.contentLength(), writenBytes == mRequestBody.contentLength());
             }
         };
